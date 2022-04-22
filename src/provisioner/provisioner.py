@@ -258,16 +258,17 @@ class CortxProvisioner:
         installed_version = cortx_conf.get(f'node>{node_id}>provisioning>version')
         release_version = CortxProvisioner.cortx_release.get_release_version()
         if installed_version is None:
-            CortxProvisioner.cluster_deploy(cortx_conf_url,force_override)
+            CortxProvisioner.cluster_deploy(cortx_conf_url, force_override)
         else:
+            # TODO: add a case where release_version > installed_version but is not compatible.
             ret_code = CortxProvisioner.cortx_release.version_check(
                 release_version, installed_version)
             if ret_code == 1:
-                CortxProvisioner.cluster_upgrade(cortx_conf_url,force_override)
+                CortxProvisioner.cluster_upgrade(cortx_conf_url, force_override)
             elif ret_code == -1:
                 raise CortxProvisionerError(errno.EINVAL, 'Downgrade is Not Supported')
             elif ret_code == 0:
-                CortxProvisioner.cluster_deploy(cortx_conf_url,force_override)
+                CortxProvisioner.cluster_deploy(cortx_conf_url, force_override)
             else:
                 raise CortxProvisionerError(errno.EINVAL, 'Internal error. Could not determine version. Invalid image.')
 

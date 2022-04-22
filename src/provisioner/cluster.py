@@ -141,7 +141,7 @@ class CortxCluster:
                 node_id = node.pop('id')
                 machine_id = CortxCluster.get_machine_id(node_id)
                 key_prefix = f'node>{machine_id}'
-                if socket.gethostname() == node['hostname'] :
+                if socket.gethostname() == node['hostname']:
                     with open(const.MACHINE_ID_PATH,'w') as machine_id_path:
                         machine_id_path.write(machine_id)
                 # confstore keys
